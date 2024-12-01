@@ -1,0 +1,5 @@
+#!/bin/bash
+# use `source init_env.sh` to set the environment variables
+
+export GENAI_APIKEY="kek"
+export FILE_URI="https://www.youtube.com/watch?v=dQw4w9WgXcQ"

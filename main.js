@@ -3,6 +3,10 @@ import fetch from "node-fetch";
 import functions from "@google-cloud/functions-framework";
 
 functions.http("transcribe", async (req, res) => {
+  return transcribe(req, res);
+});
+
+async function transcribe(req, res) {
   const genAI = new GoogleGenerativeAI(process.env.GENAI_APIKEY);
 
   const model = genAI.getGenerativeModel({
@@ -14,7 +18,8 @@ functions.http("transcribe", async (req, res) => {
 
   async function getBase64FromFile(url) {
     const response = await fetch(url);
-    const buffer = await response.arrayBuffer();
+    const arrayBuffer = await response.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
     return buffer.toString("base64");
   }
 
@@ -32,4 +37,6 @@ functions.http("transcribe", async (req, res) => {
 
   console.log(result.response.text());
   res.send(result.response.text());
-});
+}
+
+export { transcribe };
