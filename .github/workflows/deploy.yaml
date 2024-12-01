@@ -23,8 +23,8 @@ jobs:
       - name: setup staging dir
         run: |
           mkdir staging
-          cp ./main.py ./staging
-          cp ./requirements.txt ./staging
+          cp ./main.js ./staging
+          cp ./package.json ./staging
 
       - name: deploy cloud function
         working-directory: ./staging
@@ -32,8 +32,8 @@ jobs:
           printf "%s" '${{ secrets.GCF_DEPLOYER_KEY }}' > key-file.json
           gcloud auth activate-service-account --key-file=key-file.json
           rm key-file.json
-          gcloud functions deploy aigent \
-          --runtime python39 \
+          gcloud functions deploy genai-audio-transcriber \
+          --runtime=nodejs20 \
           --entry-point transcribe \
           --region us-central1 \
           --project=${{ secrets.GCP_PROJECT_ID }} \
